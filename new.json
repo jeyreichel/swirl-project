@@ -1,0 +1,19 @@
+{
+  "currency": "usd",
+  "line_items": [
+    {
+      "amount": 1000,
+      "reference": "L1"
+    }
+  ],
+  "customer_details": {
+    "address": {
+      "line1": "920 5th Ave",
+      "city": "Seattle",
+      "state": "WA",
+      "postal_code": "98104",
+      "country": "US"
+    },
+    "address_source": "shipping"
+  }
+}

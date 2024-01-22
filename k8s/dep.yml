@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-prod
+spec:
+  selector:
+    matchLabels:
+      app: shop-prod
+  template:
+    metadata:
+      labels:
+        app: shop-prod
+    spec:
+      containers:
+        - name: shop-prod
+          image: registry.digitalocean.com/neontable/shop:1.14.2
+          livenessProbe:
+            httpGet:
+              path: /api/healthy
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          startupProbe:
+            httpGet:
+              path: /api/healthy
+              port: 3000
+            failureThreshold: 30
+            periodSeconds: 10
+          env:
+            - name: NEXT_PUBLIC_SUPABASE_URL
+              value: https://dtegvflegddjhscfvlkw.supabase.co
+            - name: NEXT_PUBLIC_SUPABASE_ANON_KEY
+              value: yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0ZWd2ZmxlZ2RkamhzY2Z2bGt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODY5MzM0NTAsImV4cCI6MjAwMjUwOTQ1MH0.nVnpMsRkXWXSXnQ9x3ONDmHGRhYiOgoGpbOHxQtlubI
+            - name: NEXT_PUBLIC_POLYLAB_URL
+              value: https://api.polylab.zip/api
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "256m"
+          ports:
+            - containerPort: 3000
